@@ -12,9 +12,6 @@ This Streamlit application allows users to upload a PDF document, extract text (
 
 1️⃣ Clone the Repository
 
-git clone https://github.com/your-repo/ai-mcq-generator.git
-cd ai-mcq-generator
-
 2️⃣ Install Dependencies
 
 pip install -r requirements.txt
