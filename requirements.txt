@@ -1,0 +1,9 @@
+streamlit
+pymupdf
+pandas
+requests
+aiohttp
+asyncio
+uuid
+xmltodict
+langchain_ollama
