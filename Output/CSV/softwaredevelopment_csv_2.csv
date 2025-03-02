@@ -1,0 +1,5 @@
+﻿Type,Unused,Points,Question,CorrectAnswer,Option A,Option B,Option C,Option D,Option E
+MC,,1,What is casual software design in practice?,4,Breaking larger problems into smaller ones,Designing architecture and component-based solutions,Identifying potential solutions,Both A and B,
+MC,,1,Which of the following is a benefit of microservices architecture?,4,Complexity,"Small, focused teams",Fault isolation,All of the above,
+MC,,1,What is the focus of low-level design?,2,High-level focus on what to do,Low-level focus on how to do it,Focus on user interface,Focus on database tables,
+MC,,1,What does Single Responsibility (S) principle state in SOLID principles?,3,A class should have multiple jobs.,Objects or entities should be open for modification but closed for extension.,A class should have only one job.,The last thing you want to do is go back and change it again.,

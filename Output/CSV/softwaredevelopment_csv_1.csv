@@ -1,0 +1,4 @@
+﻿Type,Unused,Points,Question,CorrectAnswer,Option A,Option B,Option C,Option D,Option E
+MC,,1,What is the main focus of Casual Software Design in Practice?,4,Break down complex problems into smaller ones,Identify potential solutions,Describe solution abstractions and design database tables,All of the above,
+MC,,1,What is a class diagram used for?,2,To describe object behavior and relationships at a particular moment,To represent a static view of the system and describe attributes and operations of classes,To specify physical hardware on which software will execute,To visualize interaction between objects in a sequential order,
+MC,,1,What is a Use Case Diagram used for?,1,To summarize details of users and their interactions with the system,To describe object behavior and relationships at a particular moment,To specify physical hardware on which software will execute,To visualize interaction between objects in a sequential order,

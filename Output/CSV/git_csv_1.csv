@@ -1,0 +1,4 @@
+﻿Type,Unused,Points,Question,CorrectAnswer,Option A,Option B,Option C,Option D,Option E
+MC,,1,What is Version Control?,3,A free and open-source version control system.,A centralized code management system.,The practice of tracking and managing changes to software code.,"A platform for developers to create, share, and grow.",
+MC,,1,Why was it preferable to execute Git commands on the command line in the past?,3,Because it was easier to use Gitlab,Because it allowed for automatic integration of changes into your working branch.,Because it provided complete freedom and flexibility to make necessary changes.,None of the above,
+MC,,1,What happens when Git encounters a piece of data that is changed in both histories?,3,It will automatically combine them.,It will create a new branch.,It will need user intervention to continue.,It will delete the conflicting changes.,

@@ -1,0 +1,5 @@
+﻿Type,Unused,Points,Question,CorrectAnswer,Option A,Option B,Option C,Option D,Option E
+MC,,2,What is Version Control?,2,A free and open-source version of Git,A practice of tracking and managing changes to software code,A centralized system for collaboration on projects,A distributed control system like Git that allows collaboration between many clients,
+MC,,2,What has changed? Who has made the change? When was it changed?,3,"Only what, not who or when",Information about changes but not the details of who made them and when,"The history of changes, who made them, and when they were made",None of the above,
+MC,,2,Why is it preferable to execute Git commands on the command line?,1,To run all Git commands in their full functionality,To foster a community for developers,To support beginners and experienced developers,To delete branches after merging,
+MC,,2,What happens when Git encounters a piece of data that is changed in both histories?,3,It automatically combines the changes,It doesn't do anything,It creates a version control conflict and requires user intervention to continue,It deletes all commits before pushing them,
