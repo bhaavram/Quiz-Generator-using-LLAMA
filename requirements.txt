@@ -7,3 +7,4 @@ asyncio
 uuid
 xmltodict
 langchain_ollama
+tiktoken
