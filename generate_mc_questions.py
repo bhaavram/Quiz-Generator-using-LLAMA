@@ -4,7 +4,7 @@ from process_response import process_response
 
 def generate_mc_questions(text, num_mc):
     """Generate multiple-choice questions ensuring 20% are simple and all answers are 100% correct."""
-    model = ChatOllama(model="llama3", base_url="http://localhost:11434/")
+    model = ChatOllama(model="llama3", base_url="http://localhost:11434/",temperature=0.3)
 
     # Calculate the number of simple and complex questions
     num_simple = max(1, int(num_mc * 0.2))  # Ensure at least 1 simple question
