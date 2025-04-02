@@ -1,55 +1,91 @@
 from langchain_ollama import ChatOllama
 from process_response import process_response
 
+model = ChatOllama(model="llama3", base_url="http://localhost:11434/", temperature=0.5)
 
-def generate_mc_questions(text, num_mc):
-    """Generate multiple-choice questions ensuring 20% are simple and all answers are 100% correct."""
-    model = ChatOllama(model="llama3", base_url="http://localhost:11434/",temperature=0.3)
 
-    # Calculate the number of simple and complex questions
-    num_simple = max(1, int(num_mc * 0.2))  # Ensure at least 1 simple question
-    num_complex = num_mc - num_simple
+def construct_mcq_prompt(text, complexity, num_questions):
+    mc_prompt = f"""
+                From the following academic text, generate exactly {num_questions} 
+                {'simple' if complexity == 'simple' else 'complex'} multiple-choice questions.
+                These questions must be 100% based on the text and the correct answers must be correct for sure.
+                - Simple questions should focus on direct facts from the text.
+                - Complex questions should require critical thinking and deeper understanding.
+                - Include exactly four unique and plausible options.
+                - Ensure the correct answer is explicitly labeled as A, B, C, or D.
+                - Avoid ambiguity and irrelevant information.
+                - Do no use the same format as given examples below, but use the depth of the questions
+                - Vary the question phrasing across the set.
+                - Do not use "According to the text" and similar phrases in the questions
+                - Use scenarios, cause-effect, hypothetical questions, or applied logic.
+                - Avoid repeating phrases or formats across questions.
+                - Do not start multiple questions with the same wording (e.g., “What is…” or “Which of the following…”).
+                - Use a variety of phrasing styles:
+                    - ✅ Scenario-based: “A developer needs to...”
+                    - ✅ Cause-effect: “What could happen if...”
+                    - ✅ Applied reasoning: “Why might a team choose...”
+                    - ✅ Instructional: “How should you respond when...”
+                    - ✅ Factual: “What does the `git revert` command do?”
+                - Maintain clarity and grammar. Avoid ambiguity or overly verbose questions.
+                - Keep the tone technical, but conversational if needed.
+                - Avoid primary benefit questions. use different phrase instead
 
-    def generate_questions(sub_text, complexity, num_questions):
-        """Helper function to generate questions with specified complexity."""
-        mc_prompt = (
-            f"From the following academic text, generate exactly {num_questions} "
-            f"{'simple' if complexity == 'simple' else 'complex'} multiple-choice questions.\n"
-            "These questions must be 100% based on the text and the correct answers must be accurate.\n"
-            "- Simple questions should focus on direct facts from the text.\n"
-            "- Complex questions should require critical thinking and deeper understanding.\n"
-            "- Include exactly four unique and plausible options.\n"
-            "- Ensure the correct answer is explicitly labeled as A, B, C, or D.\n"
-            "- Avoid ambiguity and irrelevant information.\n\n"
-            "Text:\n{text}\n\n"
-            "Example Format:\n"
-            "Q: What is the main purpose of version control?\n"
-            "A) To track and manage changes to files over time.\n"
-            "B) To compile code efficiently.\n"
-            "C) To secure the code from unauthorized access.\n"
-            "D) To automatically fix code errors.\n"
-            "Correct Answer: A\n\n"
-            "Now, generate the questions accordingly."
-        )
+                Text:
+                {text}
 
-        formatted_prompt = mc_prompt.format(text=sub_text)
-        mc_response = model.invoke(formatted_prompt)
-        return process_response(mc_response.content, expected_count=num_questions)
+                Example format for simple question:
+                Q: What is a commit in Git?
+                A) A code review request  
+                B) A record of changes made to the repository  
+                C) A branch merge failure  
+                D) A deletion of a repository  
+                Correct Answer: B
 
-    # Generate simple and complex questions separately
-    simple_questions = generate_questions(text, 'simple', num_simple)
-    complex_questions = generate_questions(text, 'complex', num_complex)
+                Q: Which design principle states that each class should have only one responsibility?
+                A) Open-Closed Principle  
+                B) Interface Segregation Principle  
+                C) Single Responsibility Principle  
+                D) Liskov Substitution Principle  
+                Correct Answer: C
 
-    # Combine and ensure uniqueness
-    combined_questions = []
-    seen_questions = set()
+                Example Format for Complex question:
 
-    for q in simple_questions + complex_questions:
-        if q[0] not in seen_questions:
-            combined_questions.append(q)
-            seen_questions.add(q[0])
+                Q: Which of the following scenarios best highlights the advantage of using Git over traditional file storage methods?
+                A) Saving a backup copy of a single file on an external drive  
+                B) Collaborating on a shared document via email attachments  
+                C) Managing concurrent changes to code with a full history of revisions  
+                D) Uploading code to a cloud drive for storage  
+                Correct Answer: C
 
-        if len(combined_questions) == num_mc:
-            break
 
-    return combined_questions
+                Q: What might be a consequence of neglecting modular design in a large-scale software system?
+                A) Faster compile times due to fewer files  
+                B) Increased test coverage due to consolidated code  
+                C) Higher maintainability due to reduced complexity  
+                D) Tight coupling that limits flexibility and reusability  
+                Correct Answer: D
+
+                Now, generate the questions accordingly.
+                """
+
+    return mc_prompt
+
+
+def generate_mc_questions(text, num_mc, force_simple=None):
+    # print(f"\n🟡 Generating {num_mc} MCQs | force_simple={force_simple}")
+
+    if force_simple is True:
+        prompt = construct_mcq_prompt(text, 'simple', num_mc)
+        # print("📝 Prompt (Simple):", prompt[:500], "...")
+        response = model.invoke(prompt)
+        # print("📥 Model response:", response.content[:300])
+        return process_response(response.content, expected_count=num_mc)
+
+    else:
+        prompt = construct_mcq_prompt(text, 'complex', num_mc)
+        # print("📝 Prompt (Complex):", prompt[:500], "...")
+        response = model.invoke(prompt)
+        # print("📥 Model response:", response.content[:300])
+        return process_response(response.content, expected_count=num_mc)
+
+
